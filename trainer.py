@@ -104,8 +104,7 @@ class Trainer(object):
 
     def log(self, step):
         if step % self.p.steps_per_log == 0:
-            err, acc = self.step_val()
-            self.val_losses((err, acc))
+            self.step_val()
             self.log_train(step)
 
     def log_final(self, step):
@@ -142,7 +141,7 @@ class Trainer(object):
                 acc = acc + torch.sum((pred > 0.5) == y).item()
 
         acc = acc/self.val_data.__len__()
-        return np.mean(errs), acc
+        self.val_losses.append((np.mean(errs), acc))
 
     def train(self):
         step_done = self.start_from_checkpoint()
