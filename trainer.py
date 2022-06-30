@@ -49,6 +49,7 @@ class Trainer(object):
         ### Make Data Generator ###
         self.generator_train = DataLoader(dataset, batch_size=self.p.batch_size, shuffle=True, num_workers=4, drop_last=True)
         self.val_data = DataLoader(dataset_val, batch_size=self.p.batch_size, shuffle=True, num_workers=4)
+        self.val_length = dataset_val.__len__()
 
         ### Prep Training
         self.losses = []
@@ -140,7 +141,7 @@ class Trainer(object):
                 errs.append(err.item())
                 acc = acc + torch.sum((pred > 0) == y).item()
 
-        acc = acc/self.val_data.__len__()
+        acc = acc/self.val_length
         self.val_losses.append((np.mean(errs), acc))
 
     def train(self):
