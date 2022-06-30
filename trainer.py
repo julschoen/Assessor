@@ -9,7 +9,6 @@ from torch.utils.data import DataLoader
 from torch.autograd import Variable, grad
 from torch.cuda.amp import autocast, GradScaler
 
-from temp_disc_alt import Discriminator as AssesorRes
 from temp_disc import Discriminator as Assesor
 
 
@@ -34,11 +33,7 @@ class Trainer(object):
                 pickle.dump(params, file)
 
         ### Make Models ###
-        if self.p.res:
-            self.assesor = AssesorRes(self.p).to(self.device)
-        else:
-            self.assesor = Assesor(self.p).to(self.device)
-        
+        self.assesor = Assesor(self.p).to(self.device)
         if self.p.ngpu>1:
             self.assesor = nn.DataParallel(self.assesor)
             
