@@ -104,7 +104,7 @@ class Trainer(object):
 
     def log(self, step):
         if step % self.p.steps_per_log == 0:
-            err, acc = step_val()
+            err, acc = self.step_val()
             self.val_losses((err, acc))
             self.log_train(step)
 
@@ -151,7 +151,7 @@ class Trainer(object):
         for i in range(step_done, self.p.niters):
             x, y = next(gen)
             x, y = x.to(self.device), y.to(self.device)
-            err = step_train(x,y)
+            err = self.step_train(x,y)
 
             self.losses.append(err)
             self.log(i)
