@@ -142,7 +142,7 @@ class Trainer(object):
                 acc = acc + torch.sum((pred > 0.5) == y).item()
 
         acc = acc/self.val_data.__len__()
-        return np.mean(errs)[0], acc
+        return np.mean(errs), acc
 
     def train(self):
         step_done = self.start_from_checkpoint()
