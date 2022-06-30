@@ -1,6 +1,7 @@
-from temp_data_handler import DataLIDC
+from temp_data_handler import Data4D
 from trainer import Trainer
 import argparse
+import os
 
 
 def main():
@@ -11,7 +12,7 @@ def main():
 	parser.add_argument('--filterD', type=int, default=64, help='Number of filters D')
 	parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate imG')
 	parser.add_argument('--res', type=bool, default=False, help='Use ResNet Assessor')
-	parser.add_argument('--data_path', type=str, default='data/train_pat.npz',help='Path to data.')
+	parser.add_argument('--data_path', type=str, default='../Data/4dct_clean',help='Path to data.')
 	parser.add_argument('--ngpu', type=int, default=2, help='Number of GPUs')
 	parser.add_argument('--steps_per_log', type=int, default=10, help='Output Iterations')
 	parser.add_argument('--steps_per_img_log', type=int, default=50, help='Image Save Iterations')
@@ -21,9 +22,10 @@ def main():
 	parser.add_argument('--load_params', type=bool, default=False, help='Load Parameters form pickle in log dir')
 	params = parser.parse_args()
 	print(params)
-	dataset_train = DataLIDC(path=params.data_path)
+	dataset_train = Data4D(path=os.path.join(params.data_path, 'train_pat.npz'))
+	dataset_val = Data4D(path=os.path.join(params.data_path, 'test_pat.npz'))
 
-	trainer = Trainer(dataset_train, params=params)
+	trainer = Trainer(dataset_train, dataset_val, params=params)
 	trainer.train()
 
 if __name__ == '__main__':
