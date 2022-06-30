@@ -136,7 +136,7 @@ class Trainer(object):
         for _, (x,y) in enumerate(self.val_data):
             with autocast():
                 pred = self.assesor(x)
-                err = self.cla_loss(pred,y)
+                err = self.cla_loss(pred,y.to(self.device))
                 errs.append(err.item())
                 acc = acc + torch.sum((pred > 0.5) == y).item()
 
