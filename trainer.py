@@ -35,9 +35,9 @@ class Trainer(object):
 
         ### Make Models ###
         if self.p.res:
-            self.assesor = AssesorRes(self.p).to(device)
+            self.assesor = AssesorRes(self.p).to(self.device)
         else:
-            self.assesor = Assesor(self.p).to(device)
+            self.assesor = Assesor(self.p).to(self.device)
         
         if self.p.ngpu>1:
             self.assesor = nn.DataParallel(self.assesor)
