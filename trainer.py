@@ -138,7 +138,7 @@ class Trainer(object):
                 y = y.to(self.device)
                 err = self.cla_loss(pred,y)
                 errs.append(err.item())
-                acc = acc + torch.sum((pred > 0.5) == y).item()
+                acc = acc + torch.sum((pred > 0) == y).item()
 
         acc = acc/self.val_data.__len__()
         self.val_losses.append((np.mean(errs), acc))
